@@ -1,0 +1,35 @@
+GET http://localhost:3001/subsystems HTTP/1.1
+
+###
+POST http://localhost:3001/subsystems HTTP/1.1 
+content-type: application/json
+
+{
+    "subsysName":"sfdfsdfscvxבלה",
+    "system": "Medicine-PreProd",
+    "prefix":[]
+}
+
+###
+PATCH  http://localhost:3001/subsystems HTTP/1.1 
+content-type: application/json
+
+{
+    "subsysName":"בלccה",
+    "system": 6,
+    "prefix":["idda","laaa"]
+}
+###
+DELETE  http://localhost:3001/subsystems HTTP/1.1 
+content-type: application/json
+
+{
+    "subsysName":" חדש פרויקט"
+}
+###
+POST http://localhost:3001/subsystems/getSubSystem HTTP/1.1 
+content-type: application/json
+
+{
+    "sysname": ["Medicine-B2R-Prod", "Miluim-B2R-Prod"]
+}

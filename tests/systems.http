@@ -1,0 +1,38 @@
+GET http://localhost:3001/systems HTTP/1.1
+
+###
+GET http://localhost:3001/systems/worldContents HTTP/1.1
+
+###
+GET http://localhost:3001/systems/config HTTP/1.1
+
+###
+POST http://localhost:3001/systems HTTP/1.1 
+content-type: application/json
+
+{
+    "newItem": {
+        "port": 8041,
+        "name": "idn-B2R-Prod"
+    }
+}
+###
+PATCH  http://localhost:3001/systems HTTP/1.1 
+content-type: application/json
+
+{
+    "name": "LALA-B2R-PreProd",
+    "rowFields": {
+        "port": 8031,
+        "name": "L2ALA-B2R-PreProd"
+    }
+}
+
+###
+DELETE  http://localhost:3001/systems HTTP/1.1 
+content-type: application/json
+
+{
+    "name": "L2ALA-B2R-PreProd"
+}
+
