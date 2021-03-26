@@ -33,3 +33,6 @@ content-type: application/json
 {
     "sysname": ["Medicine-B2R-Prod", "Miluim-B2R-Prod"]
 }
+
+###
+GET http://localhost:3001/subsystems/withWorldContents HTTP/1.1

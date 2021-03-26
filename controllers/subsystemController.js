@@ -99,3 +99,21 @@ exports.getAllSubSystemsBySystems = async (req, res) => {
     });
   }
 };
+exports.getAllSubSystemsWithSystems = async (req, res) => {
+  const { projects, role } = req.user;
+  try {
+    const db = await getDb();
+    const data = await db.SubSystem.findAllJoin(projects, role)
+    
+    return res.send({
+      status: "success",
+      results: data.length,
+      data: data,
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: "error",
+      message: error?.message || error,
+    });
+  }
+};

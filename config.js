@@ -7,6 +7,10 @@ const senderContainer = process.env.SENDER_CONTAINER;
 const converterContainer = process.env.CONVERTER_CONTAINER;
 const storage = process.env.STORAGE_CONNECTION_STRING;
 const configPath = process.env.CONFIG_PATH;
+const hostname = process.env.HOSTNAME;
+const brideOId = process.env.BRIDGEOID;
+const communityString = process.env.COMMUNITYSTRING;
+const bridgeCheckDelay = process.env.DELAY;
 
 module.exports = {
   host,
@@ -18,4 +22,8 @@ module.exports = {
   converterContainer,
   storage,
   configPath,
+  hostname,
+  brideOId,
+  communityString,
+  bridgeCheckDelay,
 };

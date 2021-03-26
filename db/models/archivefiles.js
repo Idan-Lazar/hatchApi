@@ -1,5 +1,5 @@
 const { Model, DataTypes, Op } = require("sequelize");
-
+const { excludedStatuses } = require("../../utils/utils")
 class ArchiveFiles extends Model {}
 
 /**
@@ -156,7 +156,6 @@ async function init(sequelize) {
      * @returns Promise<ArchiveFiles>
      */
     async findByName(projects, role, name , viewMode) {
-      const excludedStatuses = ['Waiting For Sanitation', 'Sanitation Failed', 'File Was Deleted', 'Conversion to tiff failed']
       const file = role
         ? await ArchiveFiles.findAll({
             where: {
@@ -190,6 +189,46 @@ async function init(sequelize) {
             },
           });
       return data;
+    },
+    /**
+     * @returns Promise<ArchiveFiles>
+     */
+    async findAllByFilters(startDate, endDate , status , worldContents , subSystems , extensions , responseCodes , viewMode) {
+      try {
+        let filterObj = {
+          createdat: {
+            [Op.between] : [startDate , endDate ]
+          },
+          nametored: {
+            [Op.ne]: null
+          },
+          sysname: worldContents,
+          subsystemname: subSystems
+        }
+        if(!viewMode){
+          if(status === 'All Statuses' || !excludedStatuses.includes(status)){
+            filterObj.status = {
+              [Op.notIn]: excludedStatuses
+            }
+          }
+          else if(!excludedStatuses.includes(status) && status.length > 0){
+            filterObj.status = status
+          }
+        }
+        else{
+          status.length > 0 && status !== 'All Statuses' && (filterObj.status = status)
+        }
+        extensions.length > 0 && (filterObj.filetype = extensions)
+        responseCodes.length > 0 && (filterObj.responsecode = responseCodes)
+        const data = await ArchiveFiles.findAll({ 
+          where : filterObj
+        })
+        return data;
+      } catch (error) {
+        throw {
+          message: error?.message || error,
+        };
+      }
     },
     /**
      * @param {ArchiveFiles} fileData

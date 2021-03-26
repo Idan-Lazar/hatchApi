@@ -5,3 +5,22 @@ content-type: application/json
     "fileName": "debug",
     "viewMode": 0
 }
+###
+POST http://localhost:3001/archivefiles/filter HTTP/1.1 
+content-type: application/json
+
+{
+  "startDate": "2020-12-07 00:00:00",
+  "endDate": "2021-03-26 23:59:59",
+  "status": "Ready To Be Sync",
+  "worldContents": [
+    "Prat-PreProd",
+    "Prat-Prod"
+  ],
+  "subSystems": [
+    "דוח 1" 
+  ],
+  "extensions": [],
+  "responseCodes": [],
+  "viewMode": false
+}

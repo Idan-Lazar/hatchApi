@@ -1,5 +1,5 @@
 const { Model, DataTypes, Op } = require("sequelize");
-
+const { System } = require("./system");
 class SubSystem extends Model {}
 
 /**
@@ -115,6 +115,28 @@ async function init(sequelize) {
                 subsystemid: subsystems,
               },
             });
+        return data;
+      } catch (error) {
+        throw {
+          message: error.message,
+        };
+      }
+    },
+    /**
+     * @returns Promise<SubSystem>
+     */
+    async findAllJoin(subsystems, role) {
+      try {
+        let filterSubSystems;
+        const data = (await sequelize.query(
+        `SELECT subsystemname, systemmapping.sysname,sub_systems.subsystemid
+        FROM sub_systems
+        inner JOIN systemmapping ON CAST(systemmapping.sysid as INT) = ANY(sub_systems.sysid)`
+        ))[0];
+        if (!role) {
+          filterSubSystems = data.filter((subsystem) => subsystems.includes(subsystem.subsystemid))
+          return filterSubSystems;         
+        }
         return data;
       } catch (error) {
         throw {

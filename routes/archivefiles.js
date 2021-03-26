@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { getFileById } = require("../controllers/archivefilesController");
+const { getFilesByName, getFilesByFilters } = require("../controllers/archivefilesController");
 
-router.post("/", getFileById);
+router.post("/", getFilesByName);
+router.post("/filter", getFilesByFilters);
 
 module.exports = router;

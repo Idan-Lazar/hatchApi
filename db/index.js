@@ -20,6 +20,7 @@ async function getDB() {
     if (!db.initialized) {
       const connection = getConnection();
       await connection.authenticate();
+      console.log('DB connection successful!')
       db.System = await initSystem(connection);
       db.SubSystem = await initSubSystem(connection);
       db.ArchiveFiles = await initArchiveFiles(connection);
@@ -27,6 +28,7 @@ async function getDB() {
     }
   } catch (error) {
     db.initialized = false;
+    console.log('DB connection error!')
   }
 
   return db;
