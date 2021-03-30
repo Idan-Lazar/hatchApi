@@ -8,6 +8,7 @@ const cors = require('cors');
 const systemsRouter = require('./routes/systems');
 const subsystemsRouter = require('./routes/subsystem');
 const archivefilesRouter = require('./routes/archivefiles');
+const archivefilesR2BRouter = require('./routes/archivefilesr2b');
 const bridgeRouter = require('./routes/bridge')
 const { checkBridge } = require('./utils/snmp');
 
@@ -21,7 +22,7 @@ app.use(helmet());
 app.use('/',(req,res,next)=>{
     req.user = {
         systems: [6,7,2],
-        role: 0,
+        role: 1,
         projects: [17,19,23]
         }
     next()
@@ -57,6 +58,7 @@ app.get('/', (req, res) => {
 app.use('/systems', systemsRouter);
 app.use('/subsystems', subsystemsRouter);
 app.use('/archivefiles', archivefilesRouter);
+app.use('/archivefilesR2B', archivefilesR2BRouter);
 app.use('/bridge', bridgeRouter);
  
 // send 404 if no other route matched

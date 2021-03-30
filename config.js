@@ -11,6 +11,7 @@ const hostname = process.env.HOSTNAME;
 const brideOId = process.env.BRIDGEOID;
 const communityString = process.env.COMMUNITYSTRING;
 const bridgeCheckDelay = process.env.DELAY;
+const archiveFuncs = process.env.FUNCS_API_URL;
 
 module.exports = {
   host,
@@ -26,4 +27,5 @@ module.exports = {
   brideOId,
   communityString,
   bridgeCheckDelay,
+  archiveFuncs
 };

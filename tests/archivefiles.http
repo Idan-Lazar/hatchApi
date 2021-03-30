@@ -24,3 +24,11 @@ content-type: application/json
   "responseCodes": [],
   "viewMode": false
 }
+###
+POST http://localhost:3001/archivefiles/content HTTP/1.1 
+content-type: application/json
+
+{
+  "guid": "671a5ab6-f4ad-49cb-b5a5-26576d939680",
+  "sysId": "6"
+}

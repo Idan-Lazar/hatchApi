@@ -126,33 +126,6 @@ async function init(sequelize) {
   return {
     /**
      *
-     * @param {ArchiveFiles} fileData
-     */
-    async create(fileData) {
-      const file = await ArchiveFiles.create(fileData);
-      return file.toJSON();
-    },
-    /**
-     *
-     * @param {string} id
-     */
-    async delete(id) {
-      const rowsDelete = await ArchiveFiles.destroy({
-        where: { id },
-      });
-      return rowsDelete === 1;
-    },
-    /**
-     *
-     * @param {string} id
-     * @returns Promise<ArchiveFiles>
-     */
-    async findById(id) {
-      const file = await ArchiveFiles.findOne({ where: { id } });
-      return file;
-    },
-    /**
-     *
      * @returns Promise<ArchiveFiles>
      */
     async findByName(projects, role, name , viewMode) {
@@ -229,18 +202,6 @@ async function init(sequelize) {
           message: error?.message || error,
         };
       }
-    },
-    /**
-     * @param {ArchiveFiles} fileData
-     * @param {string[]} fields
-     */
-    async update(fileData, fields) {
-      const [_result, files] = await db.system.update(fileData, {
-        where: { id: fileData.id },
-        returning: true,
-        fields,
-      });
-      return files[0].toJSON();
     },
   };
 }

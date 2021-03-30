@@ -4,11 +4,11 @@ const { archiveFuncs } = require('../config')
 
 exports.getFilesByName = async (req, res) => {
   const { projects, role } = req.user;
-  const { fileName, viewMode } = req.body;
+  const { fileName } = req.body;
   try {
     const db = await getDb();
     const projectsNames = (await db.SubSystem.findAll(projects, role)).map((project) => project.subsystemname);
-    const data = await db.ArchiveFiles.findByName(projectsNames, role, fileName, viewMode);
+    const data = await db.ArchiveFilesR2B.findByName(projectsNames, role, fileName);
     return res.send({
       status: "success",
       results: data.length,
@@ -23,10 +23,10 @@ exports.getFilesByName = async (req, res) => {
 };
 
 exports.getFilesByFilters = async (req, res) => {
-  const { startDate, endDate , status , worldContents , subSystems , extensions , responseCodes , viewMode} = req.body;
+  const { startDate, endDate, worldContents , subSystems} = req.body;
   try {
     const db = await getDb();
-    const data = await db.ArchiveFiles.findAllByFilters(startDate, endDate , status , worldContents , subSystems , extensions , responseCodes , viewMode);
+    const data = await db.ArchiveFilesR2B.findAllByFilters(startDate, endDate, worldContents , subSystems);
     return res.send({
       status: "success",
       results: data.length,
@@ -34,7 +34,6 @@ exports.getFilesByFilters = async (req, res) => {
     });
     
   } catch (error) {
-    console.log(error)
     res.status(404).json({
       status: "error",
       message: error?.message || error,
@@ -42,11 +41,14 @@ exports.getFilesByFilters = async (req, res) => {
   }
 };
 exports.getFileContent = async (req, res) => {
-  const { guid, sysId } = req.body;
+  const { guid } = req.body;
   try {
-    const response = await axios.post(`${archiveFuncs}/func-getFile`,{
+    const db = await getDb();
+    const sysid = (await db.ArchiveFilesR2B.getFileByGuid(guid))[0].sysid.toString();
+   
+    const response = await axios.put(`${archiveFuncs}/func-getFileFromRed`,{
       fileId: guid,
-      sysId
+      sysId: sysid
     })
     return res.send({
       status: "success",
