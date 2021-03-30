@@ -1,4 +1,5 @@
 const { Model, DataTypes, Op } = require("sequelize");
+const { filesTableR2b } = require("../../config");
 class ArchiveFilesR2B extends Model {}
 
 /**
@@ -115,6 +116,25 @@ async function init(sequelize) {
             },
           });
       return data;
+    },
+    async updateStatus(guid) {
+      try {
+        const data = (
+          await sequelize.query(
+            `update ${filesTableR2b}
+             set status = (case when status = 'waiting' then 'processed' else 'waiting' end)
+             where guid='${guid}'`
+          )
+        );
+        if(data[1].rowCount === 0){
+          throw `Couldn't update data`
+        }
+        return data;
+      } catch (error) {
+        throw {
+          message: error.message || error,
+        };
+      }
     },
     /**
      * @returns Promise<ArchiveFilesR2B>

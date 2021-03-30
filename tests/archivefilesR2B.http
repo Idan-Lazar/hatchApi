@@ -26,3 +26,10 @@ content-type: application/json
 {
   "guid": "2f3ca8b9-7235-4b7d-b4ca-f5b754b54c80"
 }
+###
+POST http://localhost:3001/archivefilesR2B/updateFileStatus HTTP/1.1 
+content-type: application/json
+
+{
+  "guid": "2f3ca8b9-7235-4b7d-b4ca-f5b754b54c80"
+}

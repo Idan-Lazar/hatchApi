@@ -11,6 +11,7 @@
         "savedat",
         "subsys",
         "subsystemid",
-        "subsystemname"
+        "subsystemname",
+        "userid"
     ]
 }

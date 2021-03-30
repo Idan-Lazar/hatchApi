@@ -34,7 +34,6 @@ exports.getFilesByFilters = async (req, res) => {
     });
     
   } catch (error) {
-    console.log(error)
     res.status(404).json({
       status: "error",
       message: error?.message || error,

@@ -1,5 +1,5 @@
 const { Model, DataTypes, Op } = require("sequelize");
-const { System } = require("./system");
+const { systemsTable, subsystemsTable } = require("../../config");
 class SubSystem extends Model {}
 
 /**
@@ -104,6 +104,23 @@ async function init(sequelize) {
       }
     },
     /**
+     *
+     * @param {string} name
+     * @returns Promise<SubSystem>
+     */
+    async findByName(name) {
+      try {
+        const subsystem = await SubSystem.findOne({
+          where: { subsystemname: name },
+        });
+        return subsystem;
+      } catch (error) {
+        throw {
+          message: error.message,
+        };
+      }
+    },
+    /**
      * @returns Promise<SubSystem>
      */
     async findAll(subsystems, role) {
@@ -128,14 +145,18 @@ async function init(sequelize) {
     async findAllJoin(subsystems, role) {
       try {
         let filterSubSystems;
-        const data = (await sequelize.query(
-        `SELECT subsystemname, systemmapping.sysname,sub_systems.subsystemid
-        FROM sub_systems
-        inner JOIN systemmapping ON CAST(systemmapping.sysid as INT) = ANY(sub_systems.sysid)`
-        ))[0];
+        const data = (
+          await sequelize.query(
+            `SELECT subsystemname, ${systemsTable}.sysname,${subsystemsTable}.subsystemid
+             FROM ${subsystemsTable}
+             inner JOIN ${systemsTable} ON CAST(${systemsTable}.sysid as INT) = ANY(${subsystemsTable}.sysid)`
+          )
+        )[0];
         if (!role) {
-          filterSubSystems = data.filter((subsystem) => subsystems.includes(subsystem.subsystemid))
-          return filterSubSystems;         
+          filterSubSystems = data.filter((subsystem) =>
+            subsystems.includes(subsystem.subsystemid)
+          );
+          return filterSubSystems;
         }
         return data;
       } catch (error) {
@@ -164,7 +185,6 @@ async function init(sequelize) {
             returning: true,
           }
         );
-        console.log(system);
         if (system[0] === 0) {
           throw "Update db Error";
         }

@@ -62,3 +62,19 @@ exports.getFileContent = async (req, res) => {
     });
   }
 };
+exports.updateFileStatus = async (req, res) => {
+  const { guid } = req.body;
+  try {
+    const db = await getDb();
+    const data = await db.ArchiveFilesR2B.updateStatus(guid);
+    return res.send({
+      status: "success",
+    });
+    
+  } catch (error) {
+    res.status(404).json({
+      status: "error",
+      message: error?.message || error,
+    });
+  }
+};

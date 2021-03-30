@@ -12,7 +12,9 @@ const brideOId = process.env.BRIDGEOID;
 const communityString = process.env.COMMUNITYSTRING;
 const bridgeCheckDelay = process.env.DELAY;
 const archiveFuncs = process.env.FUNCS_API_URL;
-
+const filesTableR2b = process.env.FILES_TABLE_R2B;
+const systemsTable = process.env.SYSTEMS_TABLE;
+const subsystemsTable = process.env.SUBSYSTEMS_TABLE;
 module.exports = {
   host,
   database,
@@ -27,5 +29,8 @@ module.exports = {
   brideOId,
   communityString,
   bridgeCheckDelay,
-  archiveFuncs
+  archiveFuncs,
+  filesTableR2b,
+  systemsTable,
+  subsystemsTable
 };

@@ -2,6 +2,7 @@ const { init: initSystem } = require("./models/system");
 const { init: initSubSystem } = require("./models/subsystem");
 const { init: initArchiveFiles } = require("./models/archivefiles");
 const { init: initArchiveFilesR2B } = require("./models/archivefilesr2b");
+const { init: initUser } = require("./models/user");
 const { getConnection } = require("./connection");
 
 /**
@@ -15,6 +16,7 @@ const db = {
   SubSystem: null,
   ArchiveFiles: null,
   ArchiveFilesR2B: null,
+  User: null
 };
 
 async function getDB() {
@@ -27,6 +29,7 @@ async function getDB() {
       db.SubSystem = await initSubSystem(connection);
       db.ArchiveFiles = await initArchiveFiles(connection);
       db.ArchiveFilesR2B = await initArchiveFilesR2B(connection);
+      db.User = await initUser(connection);
       db.initialized = true;
     }
   } catch (error) {

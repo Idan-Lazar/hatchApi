@@ -1,0 +1,8 @@
+GET http://localhost:3001/users HTTP/1.1
+###
+POST http://localhost:3001/users/subsystem HTTP/1.1 
+content-type: application/json
+
+{
+    "subSystemName":"דוח 1"
+}
