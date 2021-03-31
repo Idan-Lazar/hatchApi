@@ -32,3 +32,11 @@ content-type: application/json
   "guid": "671a5ab6-f4ad-49cb-b5a5-26576d939680",
   "sysId": "6"
 }
+###
+PATCH http://localhost:3001/archivefiles/ HTTP/1.1 
+content-type: application/json
+
+{
+  "files": ["aa4bd995-1933-4978-8fd6-0ce866316b73","27d92dd6-2a9d-4b73-8b26-4ea740fce076"],
+  "status": "Waiting For Sanitation"
+}

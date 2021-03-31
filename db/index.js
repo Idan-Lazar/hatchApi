@@ -3,6 +3,8 @@ const { init: initSubSystem } = require("./models/subsystem");
 const { init: initArchiveFiles } = require("./models/archivefiles");
 const { init: initArchiveFilesR2B } = require("./models/archivefilesr2b");
 const { init: initUser } = require("./models/user");
+const { init: initKeepAlive } = require("./models/keepalive");
+const { init: initKeepAliveR2B } = require("./models/keepaliver2b");
 const { getConnection } = require("./connection");
 
 /**
@@ -16,7 +18,9 @@ const db = {
   SubSystem: null,
   ArchiveFiles: null,
   ArchiveFilesR2B: null,
-  User: null
+  User: null,
+  KeepAlive: null,
+  KeepAliveR2B: null,
 };
 
 async function getDB() {
@@ -30,6 +34,8 @@ async function getDB() {
       db.ArchiveFiles = await initArchiveFiles(connection);
       db.ArchiveFilesR2B = await initArchiveFilesR2B(connection);
       db.User = await initUser(connection);
+      db.KeepAlive = await initKeepAlive(connection);
+      db.KeepAliveR2B = await initKeepAliveR2B(connection);
       db.initialized = true;
     }
   } catch (error) {

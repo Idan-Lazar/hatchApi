@@ -10,6 +10,8 @@ const subsystemsRouter = require("./routes/subsystem");
 const archivefilesRouter = require("./routes/archivefiles");
 const archivefilesR2BRouter = require("./routes/archivefilesr2b");
 const usersRouter = require("./routes/users");
+const keepaliveRouter = require("./routes/keepalive");
+const keepaliveR2BRouter = require("./routes/keepaliver2b");
 const bridgeRouter = require("./routes/bridge");
 const { checkBridge } = require("./utils/snmp");
 
@@ -61,6 +63,8 @@ app.use("/subsystems", subsystemsRouter);
 app.use("/archivefiles", archivefilesRouter);
 app.use("/archivefilesR2B", archivefilesR2BRouter);
 app.use("/users", usersRouter);
+app.use("/keepalive", keepaliveRouter);
+app.use("/keepaliveR2B", keepaliveR2BRouter);
 app.use("/bridge", bridgeRouter);
 
 // send 404 if no other route matched

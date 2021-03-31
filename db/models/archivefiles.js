@@ -1,5 +1,5 @@
 const { Model, DataTypes, Op } = require("sequelize");
-const { excludedStatuses } = require("../../utils/utils")
+const { excludedStatuses } = require("../../utils/utils");
 class ArchiveFiles extends Model {}
 
 /**
@@ -128,16 +128,16 @@ async function init(sequelize) {
      *
      * @returns Promise<ArchiveFiles>
      */
-    async findByName(projects, role, name , viewMode) {
+    async findByName(projects, role, name, viewMode) {
       const file = role
         ? await ArchiveFiles.findAll({
             where: {
               nametored: {
                 [Op.iLike]: `%${name}%`,
               },
-              status:{
-                [Op.notIn]: !viewMode ? excludedStatuses : []
-              }
+              status: {
+                [Op.notIn]: !viewMode ? excludedStatuses : [],
+              },
             },
           })
         : await ArchiveFiles.findAll({
@@ -166,36 +166,65 @@ async function init(sequelize) {
     /**
      * @returns Promise<ArchiveFiles>
      */
-    async findAllByFilters(startDate, endDate , status , worldContents , subSystems , extensions , responseCodes , viewMode) {
+    async findAllByFilters(
+      startDate,
+      endDate,
+      status,
+      worldContents,
+      subSystems,
+      extensions,
+      responseCodes,
+      viewMode
+    ) {
       try {
         let filterObj = {
           createdat: {
-            [Op.between] : [startDate , endDate ]
+            [Op.between]: [startDate, endDate],
           },
           nametored: {
-            [Op.ne]: null
+            [Op.ne]: null,
           },
           sysname: worldContents,
-          subsystemname: subSystems
-        }
-        if(!viewMode){
-          if(status === 'All Statuses' || !excludedStatuses.includes(status)){
+          subsystemname: subSystems,
+        };
+        if (!viewMode) {
+          if (status === "All Statuses" || !excludedStatuses.includes(status)) {
             filterObj.status = {
-              [Op.notIn]: excludedStatuses
-            }
+              [Op.notIn]: excludedStatuses,
+            };
+          } else if (!excludedStatuses.includes(status) && status.length > 0) {
+            filterObj.status = status;
           }
-          else if(!excludedStatuses.includes(status) && status.length > 0){
-            filterObj.status = status
+        } else {
+          status.length > 0 &&
+            status !== "All Statuses" &&
+            (filterObj.status = status);
+        }
+        extensions.length > 0 && (filterObj.filetype = extensions);
+        responseCodes.length > 0 && (filterObj.responsecode = responseCodes);
+        const data = await ArchiveFiles.findAll({
+          where: filterObj,
+        });
+        return data;
+      } catch (error) {
+        throw {
+          message: error?.message || error,
+        };
+      }
+    },
+    async updateStatus(files, status) {
+      try {
+        const data = await ArchiveFiles.update(
+          { status },
+          {
+            where: {
+              guid: files,
+            },
           }
+        );
+        if (data[0] === 0) {
+          throw `Couldn't find matching data in DB`;
         }
-        else{
-          status.length > 0 && status !== 'All Statuses' && (filterObj.status = status)
-        }
-        extensions.length > 0 && (filterObj.filetype = extensions)
-        responseCodes.length > 0 && (filterObj.responsecode = responseCodes)
-        const data = await ArchiveFiles.findAll({ 
-          where : filterObj
-        })
         return data;
       } catch (error) {
         throw {

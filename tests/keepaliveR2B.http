@@ -1,0 +1,10 @@
+GET http://localhost:3001/keepaliveR2B HTTP/1.1
+###
+POST http://localhost:3001/keepaliveR2B/uploadSchema HTTP/1.1 
+content-type: application/json
+
+{
+    "sysName":"Prat",
+    "sysId": "2",
+    "schemaName": "lazar"
+}

@@ -1,0 +1,19 @@
+GET http://localhost:3001/keepalive HTTP/1.1
+###
+POST http://localhost:3001/keepalive/uploadSchema HTTP/1.1 
+content-type: application/json
+
+{
+    "sysName":"Prat",
+    "schemaName": "idanCheck",
+    "fileContent": "xml",
+    "project": "דוח 1"
+}
+###
+DELETE http://localhost:3001/keepalive/deleteSchema HTTP/1.1 
+content-type: application/json
+
+{
+    "sysName":"Prat",
+    "schemaName": "idanCheck"
+}

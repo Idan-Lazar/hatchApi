@@ -4,6 +4,10 @@ const sysNameFormat = (sysname) =>{
     const dbSystemName = splitSystemName.length === 3 ? `${splitSystemName[0]}-${splitSystemName[2]}` : splitSystemName
     return dbSystemName
 }
+
+const IntToString = (arr) =>{
+    return arr.map((element)=> element.toString())
+}
 function getDateTime() {
 
     let date = new Date();
@@ -29,8 +33,28 @@ function getDateTime() {
     return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec + "." + msec;
 
 }
+/**
+ * Validates the xml content.
+ * @param {Buffer} fileContent - The xml body.
+ * 
+ * @returns {Boolean} - Returns if the xml content is valid.
+ */
+ function validateXML(fileContent) {
+    try {
+        const response = xmlParser.validate(fileContent)
+        if(response.err) {
+            throw response.err.msg;
+        }
+        if(fileContent.includes('!DOCTYPE')) {
+            throw "File includes !DOCTYPE";
+        }
+    } catch(exception) {
+        throw "XML file is not valid";
+    }
+}
+
 const excludedStatuses = ['Waiting For Sanitation', 'Sanitation Failed', 'File Was Deleted', 'Conversion to tiff failed']
 
 module.exports = {
-    sysNameFormat , getDateTime, excludedStatuses
+    sysNameFormat, IntToString , getDateTime, excludedStatuses, validateXML
 }
